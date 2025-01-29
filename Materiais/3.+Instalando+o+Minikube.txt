@@ -1,0 +1,4 @@
+https://docs.google.com/presentation/d/1fVhSpFXbz3xWSg9jqxRAISnhqMwmKmmm5lxE1_lkfFs/edit?usp=sharing
+
+
+https://minikube.sigs.k8s.io/docs/start/
