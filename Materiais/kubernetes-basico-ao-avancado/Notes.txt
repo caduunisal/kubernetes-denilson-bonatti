@@ -91,3 +91,36 @@ openssl req -x509 \
 openssl x509 -in tls.crt -text
  
 kubectl create secret tls demo-domain-secret --key tls.key --cert tls.crt~
+
+
+
+
+======================================================
+
+
+
+Resumo
+Configuração de VirtualHost do NGINX via ConfigMap
+Vamos fazer um exemplo de utilização do ConfigMap para injetar a configuração de Virtual Host dentro do pod do NGINX.
+
+Aqui está a configuração para você utilizar também:
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    root /usr/share/nginx/app1;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name app.localhost.com www.app.localhost.com;
+
+    location / {
+            try_files $uri $uri/ =404;
+    }
+}
+Secret Types
+O Secret nada mais é do que um ConfigMap encodado em base64. Não há nada de encriptação nos secrets.
+
+Existem vários tipos de secrets que fazem o enforcing de campos informados conforme você pode conferir aqui.
+
+
