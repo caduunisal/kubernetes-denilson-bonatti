@@ -144,4 +144,51 @@ sudo chmod +x minikube
 sudo mv minikube /usr/local/bin
 
 
+======================================================
+
+
+Introdução a Storage no Kubernetes
+Os containers são voláteis e foram feitos para "morrer" e "renascer" em um ambiente distribuído. Ainda assim, temos recursos para persistir informações e compartilhar entre os pods da aplicação, se assim desejar.
+
+Há basicamente duas formas: Estático ou Dinâmico. Vamos entender as diferenças e começar a praticar.
+
+Static Volumes
+Vamos começar com o mais simples: Static Provisioning. Isso envolve a criação de um Persistent Volume, Persistent Volume Claim e posteriormente a montagem dentro da aplicação.
+
+Neste exemplo usando o local para criar um PV e PVC.
+
+Dynamic Volume
+A melhor forma de ter Storage dentro do cluster na minha visão: Dynamic Volumes.
+
+Neste caso você vai sempre precisar de uma StorageClass e um PVC para fazer a requisição.
+
+Na aula utilizei o local-path-provisioner que ensinei a instalar nesta aula. Garanta que você deployou antes de seguir os passos.
+
+Access Modes
+O Access Mode é um parâmetro obrigatório na criação do PV e PVC, divididos em:
+
+ReadWriteOnce
+
+ReadOnlyMany
+
+ReadWriteMany
+
+Lembrando que essa configuração é praticamente um best-effort. Por mais que você informe um RWO, ele pode fazer o "upgrade" para RWM conforme vimos na aula.
+
+Reclaim Policy
+A Reclaim Policy dita o que acontece depois de deletar um PVC. Hoje temos duas suportadas:
+
+Delete
+
+Retain
+
+O Delete é o default para a grande maioria dos StorageClasses, que vai deletar o underlying storage assim que o PVC for deletado. Vai tudo pro espaço mesmo.
+
+É possível, se quiser, mudar para Retain para reter os dados quando o PVC for deletado. O PV continua lá.
+
+Conforme a aula, nós deletamos e depois recuperamos os dados criando um PVC apontando para o PV, sem uso de StorageClass, similar ao provisionamento estático.
+
+Projected Volumes
+Os Projected Volumes foram criados para facilitar a montagem de Secrets e ConfigMaps basicamente. É possível agrupar objetos em um único Volume, e então ter uma única diretiva de VolumeMounts no manifesto.
+
 
